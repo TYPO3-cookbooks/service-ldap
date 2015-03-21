@@ -7,5 +7,5 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "1.0.0"
 
 #_packages
-depends "apt", '~> 2.3.0'
+depends "apt", '~> 2.6.0'
 depends "openldap", '~> 2.1.0'

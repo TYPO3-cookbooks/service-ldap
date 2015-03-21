@@ -41,8 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If this value is a shorthand to a box in Vagrant Cloud then
   # config.vm.box_url doesn't need to be specified.
   #config.vm.box = "chef/ubuntu-14.04"
-  config.vm.box = ENV['VAGRANT_BOX'] || "debian-jessie-amd64"
-  config.vm.box_url = "https://dl.dropboxusercontent.com/u/1467717/VirtualBoxes/debian-jessie-amd64.box"
+  config.vm.box = ENV['VAGRANT_BOX'] || "chef/debian-7.6"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
