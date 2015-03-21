@@ -1,19 +1,16 @@
 Overview
 ========
 
-This is the Cookbook used to deploy the Docs Rendering Hub located at [build.docs.typo3.org](http://build.docs.typo3.org).
-There are several parts of the Rendering Hub:
+This is a Chef Cookbook for setting up LDAP service for TYPO3.
 
-* The Flow-based application ([git.typo3.org](https://git.typo3.org/Packages/TYPO3.Docs.git))
-* The Flow distribution for the application ([github](https://github.com/TYPO3-infrastructure/build.docs.typo3.org))
-* The Chef cookbook used to setup the server environment ([github](https://github.com/TYPO3-cookbooks/service-ldap) ***<<< You are here!***)
+TODO
+====
 
-Both the Flow distribution and the Chef cookbook have a virtual machine (VM) setup. This table highlights the differences, and the reasons for having two different VMs:
-
-| Repository    | Purpose of VM      | Deployment Context | How the App gets into the VM  | Includes Flow Distribution? |
-|---------------|--------------------|--------------------|-------------------------------|-----------------------------|
-| Distribution  | App development    | Developer machine  | rsync folders from host to VM | Yes                         |
-| Chef Cookbook | Server development | Production server  | Surf deployment               | No                          |
+* Modify the schema (add possibility that users can have typo3 extensions associated)
+* Insert some dummy data (users / groups)
+* Authenticate user (bind a user)
+* Chef Configuration for a master / slave set up
+* Add service to read the Rabbit MQ queue for User to update
 
 Vagrant setup
 =============
@@ -73,7 +70,7 @@ To adjust configuration open ``Vagrantfile`` file and change settings according 
 
 <pre>
 	# Define IP of the virtual machine to access it from the host
-	config.vm.network :private_network, "192.168.188.130"
+	config.vm.network :private_network, "192.168.188.140"
 
 	# Turn on verbose Chef logging if necessary
 	chef.log_level      = :debug
