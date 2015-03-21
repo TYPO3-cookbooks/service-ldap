@@ -25,5 +25,6 @@ include_recipe "apt"
 
 include_recipe "openldap::server"
 
+Chef::Log.info "node['openldap']['server'] = #{node['openldap']['server']}"
 #include_recipe "openldap::auth"
 #include_recipe "openldap::master"

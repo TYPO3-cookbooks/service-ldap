@@ -97,9 +97,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :chef_solo do |chef|
 
     chef.custom_config_path = "Vagrantfile.chef"
-    chef.log_level = ENV['CHEF_LOG_LEVEL'] || :info
+    # Currently not working, see http://stackoverflow.com/questions/29186146/using-chef-environments-with-berkshelf
+    #chef.environments_path  = 'environments'
+    #chef.environment        = 'development'
+    chef.log_level          = ENV['CHEF_LOG_LEVEL'] || :info
 
     chef.run_list = [
+      "recipe[service-ldap::dev_vagrant]",
       "recipe[service-ldap::default]"
     ]
   end
