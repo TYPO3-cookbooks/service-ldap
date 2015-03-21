@@ -23,4 +23,7 @@
 # Must be included in order to have the recipe succeeding at the first run.
 include_recipe "apt"
 
-Chef::Log.info "HELLO WORLD!"
+include_recipe "openldap::server"
+
+#include_recipe "openldap::auth"
+#include_recipe "openldap::master"
