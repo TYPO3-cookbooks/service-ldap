@@ -48,6 +48,15 @@ The first step is to create a VM and provision it.
 
 </pre>
 
+The necessary settings for the development environment can be found in the `recipes/dev_vagrant.rb` cookbook. All settings
+that are different in development should go there.
+
+Working with Berkshelf
+======================
+
+In case you want to have the cookbooks included by Berkshelf in your workspace, you can use the following command to vendor them into a directory `berks-cookbooks`:
+
+    berks vendor -b Berksfile berks-cookbooks
 
 Installation of the software
 ============================
@@ -75,3 +84,10 @@ To adjust configuration open ``Vagrantfile`` file and change settings according 
 	# Turn on verbose Chef logging if necessary
 	chef.log_level      = :debug
 </pre>
+
+Further Resources
+=================
+
+* Debian and LDAP https://wiki.debian.org/LDAP/OpenLDAPSetup
+* Opscode Community LDAP Cookbook https://github.com/opscode-cookbooks/openldap
+
