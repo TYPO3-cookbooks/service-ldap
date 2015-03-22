@@ -7,7 +7,7 @@ TODO
 ====
 
 * Modify the schema (add possibility that users can have typo3 extensions associated)
-* Insert some dummy data (users / groups)
+* Insert some dummy data (users / groups) *check* (see below)
 * Authenticate user (bind a user)
 * Chef Configuration for a master / slave set up
 * Add service to read the Rabbit MQ queue for User to update
@@ -48,13 +48,13 @@ The first step is to create a VM and provision it.
 
 </pre>
 
-The necessary settings for the development environment can be found in the `recipes/dev_vagrant.rb` cookbook. All settings
+The necessary settings for the development environment can be found in the ``recipes/dev_vagrant.rb`` cookbook. All settings
 that are different in development should go there.
 
 Working with Berkshelf
 ======================
 
-In case you want to have the cookbooks included by Berkshelf in your workspace, you can use the following command to vendor them into a directory `berks-cookbooks`:
+In case you want to have the cookbooks included by Berkshelf in your workspace, you can use the following command to vendor them into a directory ``berks-cookbooks``:
 
     berks vendor -b Berksfile berks-cookbooks
 
@@ -85,9 +85,71 @@ To adjust configuration open ``Vagrantfile`` file and change settings according 
 	chef.log_level      = :debug
 </pre>
 
+Working with LDAP
+=================
+
+The following notes were taken during the Server Team Sprint 2015-03-22 and were made by Mimi (no LDAP experience at all, so please feel free to
+change / correct things if they are wrong).
+
+Reminder: In the Vagrant Box the password for LDAP is ``password`` and the RootDn is ``cn=admin,dc=typo3,dc=box``
+
+Configuration and Configuration Check
+-------------------------------------
+
+The SLAPD configuration can be found in ``/etc/ldap/slapd.conf`` and you can use the following command to run a "configuration check"
+
+    slapd -T test -f /etc/ldap/slapd.conf -d 65535
+
+Adding Some Data
+----------------
+
+The following command should add some data into the LDAP directory:
+
+    ldapadd -x -D cn=admin,dc=typo3,dc=box -W -f add_content.ldif
+
+with ``add_content.ldif`` containing the following lines:
+
+    dn: dc=typo3,dc=box
+    dc: typo3
+    o: typo3.box for LDAP server
+    description: Root entry for typo3.box
+    objectClass: top
+    objectclass: dcObject
+    objectclass: organization
+
+    dn: ou=People,dc=typo3,dc=box
+    objectClass: organizationalUnit
+    ou: People
+
+    dn: ou=Groups,dc=typo3,dc=box
+    objectClass: organizationalUnit
+    ou: Groups
+
+    dn: cn=miners,ou=Groups,dc=typo3,dc=box
+    objectClass: posixGroup
+    cn: miners
+    gidNumber: 5000
+
+    dn: uid=john,ou=People,dc=typo3,dc=box
+    objectClass: inetOrgPerson
+    objectClass: posixAccount
+    objectClass: shadowAccount
+    uid: john
+    sn: Doe
+    givenName: John
+    cn: John Doe
+    displayName: John Doe
+    uidNumber: 10000
+    gidNumber: 5000
+    userPassword: johnldap
+    gecos: John Doe
+    loginShell: /bin/bash
+    homeDirectory: /home/johN
+
 Further Resources
 =================
 
 * Debian and LDAP https://wiki.debian.org/LDAP/OpenLDAPSetup
 * Opscode Community LDAP Cookbook https://github.com/opscode-cookbooks/openldap
-
+* LDAP Tutorial from O'Reilly http://quark.humbug.org.au/publications/ldap/ldap_tut_v2.pdf
+* LDAP Tutorial from Ubuntu https://help.ubuntu.com/lts/serverguide/openldap-server.html
